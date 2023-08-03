@@ -81,3 +81,19 @@ function slideRight() {
 
 arrowRight.addEventListener("click", slideRight, true);
 arrowLeft.addEventListener("click", slideLeft, true);
+
+for (var i = 0; i < slides.length; i++) {
+  (function(index){
+     allDot[i].onclick = function() {
+       if (index !== numero) {
+        allDot[numero].classList.remove('dot_selected');
+        console.log(numero)
+         this.classList.add('dot_selected');
+         console.log(index)
+         imageSelected.src = `./assets/images/slideshow/${slides[index].image}`;
+         textSlideSelected.innerHTML = slides[index].tagLine;
+         numero = index;
+       }
+    }
+  })(i);
+ }
