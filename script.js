@@ -25,75 +25,36 @@ const imageSelected = document.querySelector(".banner-img");
 const textSlideSelected = document.querySelector(".text-slide");
 
 let numero = 0;
-let next = 1;
-let précedent = -1;
-let dot = 0;
+
+function showSlide(index) {
+  allDot[numero].classList.remove("dot_selected");
+  allDot[index].classList.add("dot_selected");
+  imageSelected.src = `./assets/images/slideshow/${slides[index].image}`;
+  textSlideSelected.innerHTML = slides[numero].tagLine;
+  numero = index;
+}
 
 function slideLeft() {
-    numero = numero + précedent;
-    dot = dot + précedent;
-  
-    if (numero < 0) 
-    numero = slides.length - 1;
-    dot = numero;
-    imageSelected.src = `./assets/images/slideshow/${slides[numero].image}`;
-    textSlideSelected.innerHTML = slides[numero].tagLine;
+  let index = (numero - 1 + slides.length) % slides.length;
+  showSlide(index);
 
-    allDot[dot].classList.add("dot_selected");
-  let dottest = dot + 1;
-  if (dot < allDot.length - 1) allDot[dottest].classList.remove("dot_selected");
-  else if (allDot[0].classList.contains("dot_selected"))
-    allDot[0].classList.remove("dot_selected");
-
-    console.log("nextSlideLeft");
+  console.log("nextSlideLeft");
 }
 
 function slideRight() {
-    numero = numero + next;
-    dot = dot + next;
-  
-    if (numero > slides.length - 1) 
-    numero = 0;
-    dot = numero;
-    imageSelected.src = `./assets/images/slideshow/${slides[numero].image}`;
-    textSlideSelected.innerHTML = slides[numero].tagLine;
-
-    // j'ajoute la classe "dot_selected" a mon element
-  allDot[dot].classList.add("dot_selected");
-  // je décrémente dot pour permettre d'enlever la classe "dot_selected" sur la précedente
-  let dottest = dot - 1 ;
-  // je fais une condition qui dit que tant que la variable dottest et inferieur au tableau et inferieur ou égal a 0. il m'enleve les classe des précedentes.
-  // si ce n'est pas le cas tu me met la variable dottest egale au dernier élement du tableau pour qu'on puisse remove la classe "dot_selected" du dernier élément
-  console.log(dottest);
-  if ((dottest < allDot.length - 1) && (dottest >= 0)){ 
-  console.log(dottest);
-  allDot[dottest].classList.remove("dot_selected");
-  console.log(numero);
-  }
-  else {
-    dottest = allDot.length - 1
-    allDot[dottest].classList.remove("dot_selected");
-    console.log(dottest);
-  }
-
-    console.log("nextSlideRight");
+  let index = (numero + 1) % slides.length;
+  showSlide(index);
+  console.log("nextSlideRight");
 }
 
 arrowRight.addEventListener("click", slideRight, true);
 arrowLeft.addEventListener("click", slideLeft, true);
 
+
 for (var i = 0; i < slides.length; i++) {
-  (function(index){
-     allDot[i].onclick = function() {
-       if (index !== numero) {
-        allDot[numero].classList.remove('dot_selected');
-        console.log(numero)
-         this.classList.add('dot_selected');
-         console.log(index)
-         imageSelected.src = `./assets/images/slideshow/${slides[index].image}`;
-         textSlideSelected.innerHTML = slides[index].tagLine;
-         numero = index;
+     allDot[i].addEventListener("click", function() {
+       if (i !== numero) {
+        showSlide(i);
        }
-    }
-  })(i);
- }
+    });
+  }
