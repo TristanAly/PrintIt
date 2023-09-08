@@ -51,10 +51,23 @@ arrowRight.addEventListener("click", slideRight, true);
 arrowLeft.addEventListener("click", slideLeft, true);
 
 
-for (var i = 0; i < slides.length; i++) {
-     allDot[i].addEventListener("click", function() {
-       if (i !== numero) {
-        showSlide(i);
-       }
-    });
-  }
+// for (var i = 0; i < slides.length; i++) {
+//      allDot[i].addEventListener("click", function() {
+//        if (i !== numero) {
+//         showSlide(i);
+//         console.log("dot click")
+//        }
+//        console.log("dot click 2")
+//     });
+//   }
+
+  for (var i = 0; i < slides.length; i++) {
+    (function(index){
+       allDot[i].onclick = function() {
+         if (index !== numero) {
+          showSlide(index);
+        console.log("dot click")
+         }
+      }
+    })(i);
+   }
